@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
@@ -14,12 +15,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import edu.mum.service.UserService;
-
 @Configuration
 @EnableWebSecurity
+@PropertySource(value= {"classpath:application.properties"})
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+        return bCryptPasswordEncoder;
+    }
+	
     @Autowired
     private DataSource dataSource;
 
@@ -83,9 +89,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring()
            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/h2-console/**");
     }
-    
-    @Bean(name = "bCryptPasswordEncoder")
-    public BCryptPasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+       
 }

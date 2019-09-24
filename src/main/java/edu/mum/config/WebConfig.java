@@ -1,28 +1,47 @@
 package edu.mum.config;
 
-import edu.mum.interceptor.UserInterceptor;
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Description;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
+import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 @Configuration
 @ComponentScan("edu.mum")
 @EnableWebMvc
+@EnableSpringDataWebSupport
 public class WebConfig implements WebMvcConfigurer {
+	
+	@Autowired
+    private RequestMappingHandlerAdapter requestMappingHandlerAdapter;
 
-    @Autowired
-    private UserInterceptor userInterceptor;
+    @PostConstruct
+    public void init() {
+        requestMappingHandlerAdapter.setIgnoreDefaultModelOnRedirect(true);
+    }
+
+    @Override
+    public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
+        configurer.enable();
+    }
+//    @Autowired
+//    private UserInterceptor userInterceptor;
 
     @Bean
     public MessageSource messageSource() {
@@ -33,6 +52,26 @@ public class WebConfig implements WebMvcConfigurer {
         return messageSource;
     }
 
+//    @Bean
+//    @Description("Thymeleaf Template Resolver")
+//    public ServletContextTemplateResolver templateResolver() {
+//        ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
+//        templateResolver.setPrefix("/WEB-INF/views/");
+//        templateResolver.setSuffix(".html");
+//        templateResolver.setTemplateMode("HTML5");
+//     
+//        return templateResolver;
+//    }
+     
+    @Bean
+    @Description("Thymeleaf Template Engine")
+    public SpringTemplateEngine templateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setTemplateEngineMessageSource(messageSource());
+        return templateEngine;
+    }
+    
     @Bean
     public ClassLoaderTemplateResolver templateResolver(){
         ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
@@ -66,10 +105,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
     }
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(userInterceptor);
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(userInterceptor);
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -78,4 +117,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .addResourceLocations("/resources/")
                 .setCachePeriod(0);
     }
+    
+    
 }
