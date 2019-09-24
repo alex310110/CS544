@@ -1,6 +1,5 @@
 package edu.mum.controller;
 
-import edu.mum.ShoppingApplication;
 import edu.mum.domain.*;
 import edu.mum.domain.view.ChangePasswordDto;
 import edu.mum.domain.view.UpdateProfileDto;
@@ -10,7 +9,6 @@ import edu.mum.service.SellerService;
 import edu.mum.service.UserService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -182,7 +180,8 @@ public class AccountController {
 
         // process update user avatar.
         MultipartFile uploadAvatar = profile.getUploadAvatar();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\avatar";
+        // need to fix later
+        String homeUrl = ""; //new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\avatar";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {

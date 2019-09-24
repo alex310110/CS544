@@ -3,10 +3,8 @@ package edu.mum.controller;
 import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import edu.mum.ShoppingApplication;
 import edu.mum.domain.view.SellerDto;
 import org.apache.commons.io.FilenameUtils;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -139,7 +137,7 @@ public class SellerController {
     public String updateShopInfo(@Valid SellerDto dto, BindingResult result, RedirectAttributes rd) {
         // process upload shop picture.
         MultipartFile uploadPicture = dto.getUpload();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\shop";
+        String homeUrl = "";// new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\shop";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {

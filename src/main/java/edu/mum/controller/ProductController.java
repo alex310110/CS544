@@ -1,11 +1,9 @@
 package edu.mum.controller;
 
-import edu.mum.ShoppingApplication;
 import edu.mum.domain.*;
 import edu.mum.service.*;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -189,7 +187,7 @@ public class ProductController {
 
         // upload file.
         MultipartFile upload = product.getUpload();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\products";
+        String homeUrl = ""; //new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\products";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {
@@ -266,7 +264,7 @@ public class ProductController {
 
         // upload file.
         MultipartFile upload = product.getUpload();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\products";
+        String homeUrl = ""; //new ApplicationHome(ShoppingApplication.class).getDir() + "\\static\\img\\products";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {

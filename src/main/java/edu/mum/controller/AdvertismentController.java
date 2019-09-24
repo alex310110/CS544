@@ -1,11 +1,9 @@
 package edu.mum.controller;
 
-import edu.mum.ShoppingApplication;
 import edu.mum.domain.Advert;
 import edu.mum.service.AdvertService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.system.ApplicationHome;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -67,7 +65,7 @@ public class AdvertismentController {
 
 
         MultipartFile uploadAdvert = advert.getImageUpload();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "/static/img/adverts";
+        String homeUrl = ""; //new ApplicationHome(ShoppingApplication.class).getDir() + "/static/img/adverts";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {
@@ -110,7 +108,7 @@ public class AdvertismentController {
 
 
         MultipartFile uploadAdvert = advert.getImageUpload();
-        String homeUrl = new ApplicationHome(ShoppingApplication.class).getDir() + "/static/img/adverts";
+        String homeUrl = ""; //new ApplicationHome(ShoppingApplication.class).getDir() + "/static/img/adverts";
         Path rootLocation = Paths.get(homeUrl);
 
         if (!Files.exists(rootLocation)) {
