@@ -2,6 +2,9 @@ package edu.mum.dao;
 
 import edu.mum.domain.Message;
 import edu.mum.domain.User;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

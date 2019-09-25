@@ -10,8 +10,8 @@ public class ServletInitializer extends AbstractAnnotationConfigDispatcherServle
         return new Class<?>[]{
                 RepositoryConfig.class,
                 AppSecurityConfig.class,
-                WebConfig.class,
-                MailConfig.class
+                MailConfig.class,
+                WebConfig.class
         };
     }
 

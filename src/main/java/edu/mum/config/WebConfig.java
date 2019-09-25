@@ -75,17 +75,22 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("resources/**")
+                .addResourceLocations("resources/");
 //		super.addResourceHandlers(registry);
-		registry.addResourceHandler("/vendor/**").addResourceLocations("/WEB-INF/static/vendor/");
-		registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/static/js/");
-		registry.addResourceHandler("/img/product/**").addResourceLocations("/WEB-INF/static/img/product/");
-        registry.addResourceHandler("/img/adverts/**").addResourceLocations("/WEB-INF/static/img/adverts/");
-		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/static/css/");
+//		registry.addResourceHandler("/resources/vendor/**")
+//                .addResourceLocations("/resources/vendor/");
+//		registry.addResourceHandler("/resources/js/**")
+//                .addResourceLocations("/resources/js/");
+//		registry.addResourceHandler("/resources/img/**")
+//                .addResourceLocations("/resources/img/");
+//		registry.addResourceHandler("/resources/css/**")
+//                .addResourceLocations("/resources/css/");
     }
 
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
-        super.addInterceptors(registry);
+        //super.addInterceptors(registry);
         registry.addInterceptor(userInterceptor());
     }
 }

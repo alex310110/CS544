@@ -20,7 +20,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource(value="classpath:application.properties")
-@EnableJpaRepositories("edu.mum.repository")
+@EnableJpaRepositories("edu.mum")
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
 public class RepositoryConfig {
@@ -43,7 +43,7 @@ public class RepositoryConfig {
 
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
-		entityManagerFactoryBean.setPackagesToScan(new String[] { "edu.mum.domain" });
+		entityManagerFactoryBean.setPackagesToScan(new String[] { "edu.mum" });
 		HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
 		vendorAdapter.setShowSql(true);
 		entityManagerFactoryBean.setJpaVendorAdapter(vendorAdapter);
