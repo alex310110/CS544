@@ -20,6 +20,7 @@ public class Buyer {
     private List<Order> orders = new ArrayList<Order>();
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<CartItem>();
+
     @ManyToMany
     @JoinTable(name = "following", joinColumns = {@JoinColumn(name = "buyer_id")}, inverseJoinColumns = {@JoinColumn(name = "seller_id")})
     private List<Seller> sellers = new ArrayList<Seller>();

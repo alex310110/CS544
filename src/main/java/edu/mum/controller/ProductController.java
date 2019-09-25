@@ -55,18 +55,27 @@ public class ProductController {
     @GetMapping("/product/{productId}")
     public String loadProduct(@PathVariable("productId") Long id, Model model) {
         Product product = productService.findById(id);
-
         model.addAttribute("product", product);
-        List<OrderItem> orderItems = orderItemService.getOrderItems().stream().filter(x -> x.getProduct().equals(product) && x.getReviewStatus().equals(Status.APPROVED)).collect(Collectors.toList());
+
+        List<OrderItem> orderItems = orderItemService
+                .getOrderItems()
+                .stream()
+                .filter(x -> x.getProduct().equals(product) && x.getReviewStatus().equals(Status.APPROVED))
+                .collect(Collectors.toList());
         model.addAttribute("orderItems", orderItems);
 
         Seller seller = product.getSeller();
+        List<Product> relatedProducts = productService.getProductsBySeller(seller);
+        seller.setProducts(relatedProducts);
         model.addAttribute("seller", seller);
+
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         Buyer buyer = buyerService.getBuyerByUser(user);
+
         if(buyer != null){
-            if(buyerService.getFollowings(buyer.getId()).contains(seller)){
+            List<Seller> followers = buyerService.getFollowings(buyer.getId());
+            if(followers.contains(seller)){
                 model.addAttribute("follow",1);
             } else {
                 model.addAttribute("follow", 2);

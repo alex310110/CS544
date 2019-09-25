@@ -2,6 +2,7 @@ package edu.mum.service.impl;
 
 import edu.mum.dao.SellerDao;
 import edu.mum.domain.Buyer;
+import edu.mum.domain.Product;
 import edu.mum.domain.Seller;
 import edu.mum.domain.User;
 import edu.mum.service.SellerService;
