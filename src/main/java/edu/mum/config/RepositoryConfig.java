@@ -20,7 +20,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource(value="classpath:application.properties")
-@EnableJpaRepositories("edu.mum.repository")
+@EnableJpaRepositories("edu.mum.dao.impl")
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
 public class RepositoryConfig {

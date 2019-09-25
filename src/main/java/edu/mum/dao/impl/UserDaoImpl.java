@@ -15,8 +15,12 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements edu.mum.dao.Use
 
     @Override
     public User findByEmail(String email) {
-        Query query = entityManager.createQuery("select u from User u where u.email = :email ");
-        return (User) query.setParameter("email", email).getSingleResult();
+            Query query = entityManager.createQuery("select u from User u where u.email = :email ");
+        try {
+            return (User) query.setParameter("email", email).getSingleResult();
+        } catch (Exception e){
+            return null;
+        }
     }
 
     @Override

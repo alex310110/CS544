@@ -15,6 +15,10 @@ public class SellerDaoImpl extends GenericDaoImpl<Seller> implements edu.mum.dao
     @Override
     public Seller findSellerByUser(User user) {
         Query query = entityManager.createQuery("select s from Seller s where s.user = :user ");
-        return (Seller) query.setParameter("user", user).getSingleResult();
+        try {
+            return (Seller) query.setParameter("user", user).getSingleResult();
+        } catch(Exception e){
+            return null;
+        }
     }
 }
