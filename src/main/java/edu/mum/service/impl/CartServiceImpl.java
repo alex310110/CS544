@@ -1,8 +1,8 @@
 package edu.mum.service.impl;
 
+import edu.mum.dao.CartItemDao;
 import edu.mum.domain.Buyer;
 import edu.mum.domain.CartItem;
-import edu.mum.repository.CartRepository;
 import edu.mum.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,35 +14,35 @@ import java.util.List;
 public class CartServiceImpl implements CartService {
 
     @Autowired
-    CartRepository cartRepository;
+    CartItemDao cartItemDao;
 
     @Override
     public void addCartItem(CartItem item) {
-        cartRepository.save(item);
+        cartItemDao.save(item);
     }
 
     @Override
     public CartItem saveCartItem(Buyer buyer, CartItem item) {
         item.setBuyer(buyer);
         buyer.addCartItem(item);
-        return cartRepository.save(item);
+        return cartItemDao.save(item);
     }
 
     @Override
     public void removeCartItem(Long id) {
-        CartItem item = cartRepository.findById(id).get();
+        CartItem item = cartItemDao.findOne(id);
         item.getBuyer().removeCartItem(item);
-        cartRepository.delete(item);
+        cartItemDao.delete(item.getId());
     }
 
     @Override
     public List<CartItem> getCartByBuyerId(Long buyerId) {
-        return (List) cartRepository.getCartItemByBuyerId(buyerId);
+        return (List) cartItemDao.getCartItemByBuyerId(buyerId);
     }
 
     @Override
     public BigDecimal getTotalAmount(Long buyerId) {
-        List<CartItem> cartItems = (List) cartRepository.getCartItemByBuyerId(buyerId);
+        List<CartItem> cartItems = (List) cartItemDao.getCartItemByBuyerId(buyerId);
         BigDecimal totalAmount = new BigDecimal(0.00);
         for (CartItem ci : cartItems) {
             totalAmount = totalAmount.add(ci.getProduct().getPrice().multiply(new BigDecimal(ci.getQuantity())));

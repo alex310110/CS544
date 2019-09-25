@@ -1,7 +1,7 @@
 package edu.mum.service.impl;
 
+import edu.mum.dao.CartItemDao;
 import edu.mum.domain.CartItem;
-import edu.mum.repository.CartItemRepository;
 import edu.mum.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,20 +12,20 @@ import java.util.List;
 public class CartItemServiceImpl implements CartItemService {
 
     @Autowired
-    CartItemRepository cartItemRepository;
+    CartItemDao cartItemDao;
 
     @Override
     public CartItem saveCartItem(CartItem cartItem) {
-        return cartItemRepository.save(cartItem);
+        return cartItemDao.save(cartItem);
     }
 
     @Override
     public List<CartItem> getCartItems() {
-        return (List<CartItem>) cartItemRepository.findAll();
+        return (List<CartItem>) cartItemDao.findAll();
     }
 
     @Override
     public CartItem getCartItemById(Long id) {
-        return cartItemRepository.findById(id).get();
+        return cartItemDao.findOne(id);
     }
 }

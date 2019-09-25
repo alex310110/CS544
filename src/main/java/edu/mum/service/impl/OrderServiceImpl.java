@@ -1,13 +1,11 @@
 package edu.mum.service.impl;
 
+import edu.mum.dao.CartItemDao;
+import edu.mum.dao.OrderDao;
+import edu.mum.dao.OrderItemDao;
 import edu.mum.domain.*;
 import edu.mum.domain.view.OrderInfo;
-import edu.mum.repository.CartRepository;
-import edu.mum.repository.OrderItemRepository;
-import edu.mum.repository.OrderRepository;
 import edu.mum.service.OrderService;
-import edu.mum.util.PdfGenerator;
-//import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,25 +19,22 @@ import java.util.Map;
 @Service
 public class OrderServiceImpl implements OrderService {
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderDao orderDao;
 
     @Autowired
-    private OrderItemRepository orderItemRepository;
+    private OrderItemDao orderItemDao;
 
     @Autowired
-    private CartRepository cartRepository;
-
-    @Autowired
-    private PdfGenerator pdfGenerator;
+    private CartItemDao cartItemDao;
 
     @Override
     public Order getOrderById(Long id) {
-        return orderRepository.findById(id).get();
+        return orderDao.findOne(id);
     }
 
     @Override
     public Order saveOrder(Buyer buyer, Order order) {
-        List<CartItem> cartItems = (List) cartRepository.getCartItemByBuyerId(buyer.getId());
+        List<CartItem> cartItems = (List) cartItemDao.getCartItemByBuyerId(buyer.getId());
         BigDecimal totalAmount = new BigDecimal(0.00);
         for (CartItem ci : cartItems) {
             OrderItem oi = new OrderItem();
@@ -48,7 +43,7 @@ public class OrderServiceImpl implements OrderService {
             order.addOrderItem(oi);
             oi.setOrder(order);
             totalAmount = totalAmount.add(ci.getProduct().getPrice().multiply(new BigDecimal(ci.getQuantity())));
-            cartRepository.delete(ci);
+            cartItemDao.delete(ci.getId());
         }
         if (order.getUsingPoints() == true) {
             totalAmount = totalAmount.subtract(new BigDecimal(buyer.getPoints()));
@@ -71,16 +66,16 @@ public class OrderServiceImpl implements OrderService {
         order.setBuyer(buyer);
         order.setOrderedDate(LocalDateTime.now());
         buyer.addOrder(order);
-        return orderRepository.save(order);
+        return orderDao.save(order);
     }
 
     public Order updateOrder(Order order) {
-        return orderRepository.save(order);
+        return orderDao.save(order);
     }
 
     @Override
     public void deleteOrder(Long id) {
-        orderRepository.delete(orderRepository.findById(id).get());
+        orderDao.delete(orderDao.findOne(id).getId());
     }
 
     @Override
@@ -88,12 +83,12 @@ public class OrderServiceImpl implements OrderService {
         order.setStatus(OrderStatus.COMPLETED);
         Integer points = order.getTotalAmount().divide(new BigDecimal(100)).intValue();
         order.getBuyer().setPoints(order.getBuyer().getPoints() + points);
-        orderRepository.save(order);
+        orderDao.save(order);
     }
 
     @Override
     public OrderItem saveOrderItem(OrderItem orderItem) {
-        return orderItemRepository.save(orderItem);
+        return orderItemDao.save(orderItem);
     }
 
     @Override
@@ -106,35 +101,36 @@ public class OrderServiceImpl implements OrderService {
         for (OrderItem i : orderItems) {
             i.setOrderStatus(OrderItemStatus.CANCELED);
         }
-        orderRepository.save(order);
+        orderDao.save(order);
     }
 
     @Override
     public File downloadReceipt(OrderInfo orderInfo) throws Exception {
         Map<String, OrderInfo> data = new HashMap<String, OrderInfo>();
         data.put("order", orderInfo);
-        return pdfGenerator.createPdf("buyer/PDF", data);
+//        return pdfGenerator.createPdf("buyer/PDF", data);
+        return null;
 
     }
 
     @Override
     public OrderItem getOrderItemById(Long itemId) {
-        return orderItemRepository.findById(itemId).get();
+        return orderItemDao.findOne(itemId);
     }
 
     @Override
     public List<OrderItem> getOrderItemsBySeller(Long sellerId) {
-        return orderItemRepository.getOrderItemsBySeller(sellerId);
+        return orderItemDao.getOrderItemsBySeller(sellerId);
     }
 
     @Override
     public List<Order> getAll() {
-        return (List<Order>) orderRepository.findAll();
+        return (List<Order>) orderDao.findAll();
     }
 
     @Override
     public List<OrderItem> getDeliveredOrderItemsByOrder(Long orderId) {
-        return orderItemRepository.getDeliveredOrderItemsByOrder(orderId);
+        return orderItemDao.getDeliveredOrderItemsByOrder(orderId);
     }
 
 

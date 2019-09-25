@@ -1,13 +1,10 @@
 package edu.mum.service.impl;
 
-import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
-import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
-import edu.mum.config.MailConfig;
+import edu.mum.dao.MessageDao;
 import edu.mum.domain.Message;
 import edu.mum.domain.User;
-import edu.mum.repository.MessageRepository;
 import edu.mum.service.MessageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,37 +16,37 @@ import java.util.List;
 public class MessageServiceImpl implements MessageService {
 
     @Autowired
-    MessageRepository messageRepository;
+    MessageDao messageDao;
 
-    @Autowired
-    private MailConfig mailConfig;
+//    @Autowired
+//    private MailConfig mailConfig;
 
     @Override
     public Message saveMessage(Message message) {
-        return messageRepository.save(message);
+        return messageDao.save(message);
     }
 
     @Override
     public List<Message> getMessages() {
-        return (List<Message>) messageRepository.findAll();
+        return (List<Message>) messageDao.findAll();
     }
 
     @Override
     public Message getMessageById(Long id) {
-        return messageRepository.findById(id).get();
+        return messageDao.findOne(id);
     }
 
     @Override
     public void delete(Message message) {
-        messageRepository.delete(message);
+        messageDao.delete(message.getId());
     }
 
     @Override
     public void setMessageRead(Long id) {
-        Message msg = messageRepository.findById(id).get();
+        Message msg = messageDao.findOne(id);
         if(msg != null){
-            msg.setIsRead(true);
-            messageRepository.save(msg);
+            msg.setRead(true);
+            messageDao.save(msg);
         }
     }
 
@@ -59,19 +56,25 @@ public class MessageServiceImpl implements MessageService {
         msg.setContent(content);
         msg.setReceivedDate(LocalDateTime.now());
         msg.setUser(toUser);
-        msg.setIsRead(false);
-        messageRepository.save(msg);
+        msg.setRead(false);
+        messageDao.save(msg);
     }
 
     @Override
     public JsonNode sendEmail(String from, String to, String subject, String content) throws UnirestException {
-        HttpResponse<JsonNode> request = Unirest.post(mailConfig.getMailMessageUrl())
-                .basicAuth("api", mailConfig.getApiKey())
-                .queryString("from", from == null ? mailConfig.getNoReplyEmail() : from)
-                .queryString("to", to)
-                .queryString("subject", subject)
-                .queryString("text", content)
-                .asJson();
-        return request.getBody();
+        return null;
     }
+
+
+//    @Override
+//    public JsonNode sendEmail(String from, String to, String subject, String content) throws UnirestException {
+//        HttpResponse<JsonNode> request = Unirest.post(mailConfig.getMailMessageUrl())
+//                .basicAuth("api", mailConfig.getApiKey())
+//                .queryString("from", from == null ? mailConfig.getNoReplyEmail() : from)
+//                .queryString("to", to)
+//                .queryString("subject", subject)
+//                .queryString("text", content)
+//                .asJson();
+//        return request.getBody();
+//    }
 }
