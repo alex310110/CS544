@@ -48,7 +48,7 @@ public class MessageServiceImpl implements MessageService {
     public void setMessageRead(Long id) {
         Message msg = messageRepository.findById(id).get();
         if(msg != null){
-            msg.setRead(true);
+            msg.setIsRead(true);
             messageRepository.save(msg);
         }
     }
@@ -59,7 +59,7 @@ public class MessageServiceImpl implements MessageService {
         msg.setContent(content);
         msg.setReceivedDate(LocalDateTime.now());
         msg.setUser(toUser);
-        msg.setRead(false);
+        msg.setIsRead(false);
         messageRepository.save(msg);
     }
 

@@ -358,7 +358,7 @@ public class AccountController {
     @GetMapping(value = {"/message/read/{id}"})
     public String readMessage(@PathVariable(value = "id") Long id){
         Message message = messageService.getMessageById(id);
-        message.setRead(true);
+        message.setIsRead(true);
         messageService.saveMessage(message);
         return "redirect:/account/message";
     }
