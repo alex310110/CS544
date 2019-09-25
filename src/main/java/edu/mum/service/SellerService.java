@@ -1,6 +1,7 @@
 package edu.mum.service;
 
 import edu.mum.domain.Buyer;
+import edu.mum.domain.Product;
 import edu.mum.domain.Seller;
 import edu.mum.domain.User;
 

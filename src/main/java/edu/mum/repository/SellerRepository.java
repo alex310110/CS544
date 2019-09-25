@@ -1,6 +1,7 @@
 package edu.mum.repository;
 
 import edu.mum.domain.Buyer;
+import edu.mum.domain.Product;
 import edu.mum.domain.Seller;
 import edu.mum.domain.User;
 import org.springframework.data.jpa.repository.Query;

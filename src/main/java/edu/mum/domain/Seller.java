@@ -45,4 +45,5 @@ public class Seller {
     public void removeBuyer(Buyer buyer) {
         buyers.remove(buyer);
     }
+
 }

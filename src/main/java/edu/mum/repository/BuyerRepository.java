@@ -13,4 +13,6 @@ import java.util.List;
 public interface BuyerRepository extends CrudRepository<Buyer, Long> {
     Buyer findBuyerByUser(User user);
 
+    @Query("select b.sellers from Buyer b where b.id = :id")
+    List<Seller> getFollowingSellers(Long id);
 }
