@@ -8,8 +8,8 @@ public class ServletInitializer extends AbstractAnnotationConfigDispatcherServle
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return new Class<?>[]{
-                RepositoryConfig.class,
-                AppSecurityConfig.class,
+                HibernateConfig.class,
+                WebSecurityConfig.class,
                 WebConfig.class,
                 MailConfig.class
         };
