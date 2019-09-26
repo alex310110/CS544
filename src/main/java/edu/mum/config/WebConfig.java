@@ -6,10 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 import org.thymeleaf.extras.springsecurity5.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring5.SpringTemplateEngine;
@@ -75,12 +72,26 @@ public class WebConfig extends WebMvcConfigurationSupport {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//		super.addResourceHandlers(registry);
-		registry.addResourceHandler("/vendor/**").addResourceLocations("/WEB-INF/static/vendor/");
-		registry.addResourceHandler("/js/**").addResourceLocations("/WEB-INF/static/js/");
-		registry.addResourceHandler("/img/product/**").addResourceLocations("/WEB-INF/static/img/product/");
-        registry.addResourceHandler("/img/adverts/**").addResourceLocations("/WEB-INF/static/img/adverts/");
-		registry.addResourceHandler("/css/**").addResourceLocations("/WEB-INF/static/css/");
+        registry.addResourceHandler("resources/**")
+                .addResourceLocations("/WEB-INF/resources/");
+//        registry.addResourceHandler("/resources/img/**")
+//                .addResourceLocations("/WEB-INF/resources/img/");
+
+		registry.addResourceHandler("/vendor/**")
+                .addResourceLocations("/WEB-INF/resources/vendor/");
+        registry.addResourceHandler("/js/**")
+                .addResourceLocations("/WEB-INF/resources/js/");
+        registry.addResourceHandler("/css/**")
+                .addResourceLocations("/WEB-INF/resources/css/");
+
+    }
+
+    @Override
+    protected void addCorsMappings(CorsRegistry registry) {
+//        super.addCorsMappings(registry);
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:8080")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
     }
 
     @Override

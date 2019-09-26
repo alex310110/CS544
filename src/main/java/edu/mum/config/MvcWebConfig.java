@@ -90,8 +90,14 @@ public class MvcWebConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:8080")
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+//        registry.addMapping("/**")
+//                .allowedOrigins("http://localhost:8080")
+//                .allowedMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//        registry.addResourceHandler("/resources/img/**")
+//                .addResourceLocations("/WEB-INF/resources/img/");
     }
 }

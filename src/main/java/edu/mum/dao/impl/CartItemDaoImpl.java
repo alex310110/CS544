@@ -14,8 +14,8 @@ public class CartItemDaoImpl extends GenericDaoImpl<CartItem> implements edu.mum
 
     @Override
     public List<CartItem> getCartItemByBuyerId(Long buyerId) {
-        Query query = entityManager.createNamedQuery("CartItem.findByUserId").setParameter("buyerId", buyerId);
-
-        return (List<CartItem>) query.getResultList();
+//        Query query = entityManager.createNamedQuery("CartItem.findByUserId").setParameter("buyerId", buyerId);
+        Query query = entityManager.createQuery("select c from CartItem c where c.buyer.id = :buyerId");
+        return (List<CartItem>) query.setParameter("buyerId", buyerId).getResultList();
     }
 }

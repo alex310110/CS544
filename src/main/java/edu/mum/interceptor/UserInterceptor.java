@@ -21,7 +21,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-//@Component
+@Component
 public class UserInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired

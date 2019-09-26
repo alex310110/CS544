@@ -20,7 +20,7 @@ import java.util.Properties;
 
 @Configuration
 @PropertySource(value="classpath:application.properties")
-@EnableJpaRepositories("edu.mum.dao.impl")
+@EnableJpaRepositories("edu.mum.repository")
 @EnableTransactionManagement
 @EnableSpringDataWebSupport
 public class RepositoryConfig {
@@ -40,7 +40,6 @@ public class RepositoryConfig {
 
 	@Bean(name = "entityManagerFactory")
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean() {
-
 		LocalContainerEntityManagerFactoryBean entityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		entityManagerFactoryBean.setDataSource(dataSource());
 		entityManagerFactoryBean.setPackagesToScan(new String[] { "edu.mum.domain" });

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       xmlns:th="http://www.thymeleaf.org/"
       layout:decorate="~{layouts/home}">
 
@@ -12,7 +13,7 @@
 
             <h1 class="my-4" th:text="${seller.name}">Shop Name</h1>
             <div class="list-group">
-                <img th:src="${seller.picture}" th:alt="seller.picture" style="width: 100%;">
+                <img th:src="@{'/' + ${seller.picture}}" th:alt="seller.picture" style="width: 100%;">
                 <span th:text="${seller.description}"></span>
 <!--                <form th:action="(${follow} == 1) ? @{'/buyer/seller/' + ${seller.id} + '/follow'} :-->
 <!--                @{'/buyer/seller/' + ${seller.id} + '/unfollow'}" th:method="POST">-->
@@ -30,9 +31,9 @@
 
                 <div class="card h-100 mb-3 p-2" th:each="product,iterStat : ${seller.products}" th:if="${iterStat.index}<3">
                     <a th:href="@{'/product/' + ${product.id}}">
-                        <img th:src="${product.image}" class="img-thumbnail">
+                        <img th:src="@{'/' + ${product.image}}" class="img-thumbnail">
                     </a>
-                    <a th:href="${product.image}" th:text="${product.name}"></a>
+                    <a th:href="@{'/' + ${product.image}}" th:text="${product.name}"></a>
                     <span th:text="'$'+${product.price}"></span>
                 </div>
 
@@ -43,7 +44,7 @@
         <div class="col-lg-9">
 
             <div class="card mt-4">
-                <img class="card-img-top img-fluid" th:src="${product.image}" th:alt="${product.name}">
+                <img class="card-img-top img-fluid" th:src="@{'/' + ${product.image}}" th:alt="${product.name}">
                 <div class="card-body">
                     <h3 class="card-title" th:text="${product.name}"></h3>
                     <h4>$24.99</h4>

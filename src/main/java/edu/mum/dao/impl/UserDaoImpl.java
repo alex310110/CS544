@@ -25,7 +25,8 @@ public class UserDaoImpl extends GenericDaoImpl<User> implements edu.mum.dao.Use
 
     @Override
     public List<Message> getLast5UnreadNotifyMessageByUserEmail(String email) {
-        Query query = entityManager.createQuery("select m from Message m join User u on m.user = u.id where m.isRead = 0 and  u.email = :email and rownum < 5 order by m.receivedDate desc");
+        Query query = entityManager.createQuery("select m from Message m join User u on m.user = u.id where m.isRead = 0 and  u.email = :email order by m.receivedDate desc");
+//        Query query = entityManager.createQuery("select m from Message m");
         return (List<Message>) query.setParameter("email", email).getResultList();
     }
 }

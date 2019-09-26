@@ -10,6 +10,7 @@ import edu.mum.service.UserService;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -52,12 +53,12 @@ public class AccountController {
      */
 
     @GetMapping(value = {"/message"})
-    public String getMessageListForm(Model model){
+    public String getMessageListForm(Model model) {
         // get the current user message.
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if(authentication != null){
+        if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
-            if(user != null){
+            if (user != null) {
                 List<Message> messages = user.getMessages();
                 model.addAttribute("messages", messages);
             }
@@ -66,19 +67,19 @@ public class AccountController {
         return "/account/messages";
     }
 
-    @GetMapping(value = {"/messages"},
+    @RequestMapping(value = "/messages",
+            method = RequestMethod.GET,
             produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE
-    )
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<Message> getUserMessages() {
-        // get current user principal
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null && auth.isAuthenticated()) {
-            List<Message> messages = userService.getLast5UnreadNotifyMessageByUserEmail(auth.getName());
-            return messages;
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null && auth.isAuthenticated()) {
+                List<Message> messages = userService.getLast5UnreadNotifyMessageByUserEmail(auth.getName());
+                return messages;
+            }
         }
-
         return null;
     }
 
@@ -98,8 +99,8 @@ public class AccountController {
                 model.addAttribute("profile", profileDto);
 
                 // get the buyer points
-                Buyer buyer= buyerService.getBuyerByUser(user);
-                if(buyer != null) {
+                Buyer buyer = buyerService.getBuyerByUser(user);
+                if (buyer != null) {
                     model.addAttribute("points", buyer.getPoints());
                 }
             }
@@ -356,7 +357,7 @@ public class AccountController {
     }
 
     @GetMapping(value = {"/message/read/{id}"})
-    public String readMessage(@PathVariable(value = "id") Long id){
+    public String readMessage(@PathVariable(value = "id") Long id) {
         Message message = messageService.getMessageById(id);
         message.setRead(true);
         messageService.saveMessage(message);
@@ -364,7 +365,7 @@ public class AccountController {
     }
 
     @GetMapping(value = {"/message/delete/{id}"})
-    public String deleteMessage(@PathVariable(value = "id") Long id){
+    public String deleteMessage(@PathVariable(value = "id") Long id) {
         Message message = messageService.getMessageById(id);
         messageService.delete(message);
         return "redirect:/account/message";

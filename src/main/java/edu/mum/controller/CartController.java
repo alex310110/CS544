@@ -11,6 +11,7 @@ import edu.mum.service.CartService;
 import edu.mum.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -39,32 +40,36 @@ public class CartController {
         return "/buyer/ShoppingCart";
     }
 
-    @GetMapping("/buyer/shoppingCart")
+    @RequestMapping(value = "/buyer/shoppingCart",
+            method = RequestMethod.GET,
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<CartInfo> getCart() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            User user = userService.findByEmail(auth.getName());
-            if (user != null) {
-                Buyer buyer = buyerService.getBuyerByUser(user);
-                if (buyer != null) {
-                    List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
-                    List<CartInfo> items = new ArrayList<>();
-                    for (CartItem ci : cartItems) {
-                        Product product = ci.getProduct();
-                        items.add(new CartInfo(ci.getId(),
-                                product.getName(),
-                                product.getPrice(),
-                                product.getImage(),
-                                ci.getQuantity()
-                        ));
-                    }
+        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            if (auth != null) {
+                User user = userService.findByEmail(auth.getName());
+                if (user != null) {
+                    Buyer buyer = buyerService.getBuyerByUser(user);
+                    if (buyer != null) {
+                        List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
+                        List<CartInfo> items = new ArrayList<>();
+                        for (CartItem ci : cartItems) {
+                            Product product = ci.getProduct();
+                            items.add(new CartInfo(ci.getId(),
+                                    product.getName(),
+                                    product.getPrice(),
+                                    product.getImage(),
+                                    ci.getQuantity()
+                            ));
+                        }
 
-                    return items;
+                        return items;
+                    }
                 }
             }
         }
-
         return null;
     }
 
