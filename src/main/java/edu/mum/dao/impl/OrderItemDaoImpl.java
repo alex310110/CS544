@@ -28,7 +28,7 @@ public class OrderItemDaoImpl extends GenericDaoImpl<OrderItem> implements edu.m
     @Override
     public List<String> getApprovedReviews(Long itemId) {
 
-        Query query = entityManager.createQuery("select i.review from OrderItem i where i.review_status = 'APPROVED' and i.id = :itemId");
+        Query query = entityManager.createQuery("select i.review from OrderItem i where i.reviewStatus = 'APPROVED' and i.id = :itemId");
         return (List<String>) query.setParameter("itemId", itemId).getResultList();
 
     }
@@ -41,7 +41,7 @@ public class OrderItemDaoImpl extends GenericDaoImpl<OrderItem> implements edu.m
 
     @Override
     public List<OrderItem> getDeliveredOrderItemsByOrder(Long orderId) {
-        Query query = entityManager.createQuery("select i from OrderItem i where i.order_status = 'DELIVERED' and i.order_id = :orderId");
+        Query query = entityManager.createQuery("select i from OrderItem i where i.orderStatus = 'DELIVERED' and i.order.id = :orderId");
         return (List<OrderItem>) query.setParameter("orderId", orderId).getResultList();
     }
 }

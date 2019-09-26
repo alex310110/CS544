@@ -40,38 +40,67 @@ public class CartController {
         return "/buyer/ShoppingCart";
     }
 
-    @RequestMapping(value = "/buyer/shoppingCart",
-            method = RequestMethod.GET,
-            produces = MediaType.APPLICATION_JSON_VALUE,
-            consumes = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping("/buyer/shoppingCart")
     @ResponseBody
     public List<CartInfo> getCart() {
-        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
-            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null) {
-                User user = userService.findByEmail(auth.getName());
-                if (user != null) {
-                    Buyer buyer = buyerService.getBuyerByUser(user);
-                    if (buyer != null) {
-                        List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
-                        List<CartInfo> items = new ArrayList<>();
-                        for (CartItem ci : cartItems) {
-                            Product product = ci.getProduct();
-                            items.add(new CartInfo(ci.getId(),
-                                    product.getName(),
-                                    product.getPrice(),
-                                    product.getImage(),
-                                    ci.getQuantity()
-                            ));
-                        }
-
-                        return items;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            User user = userService.findByEmail(auth.getName());
+            if (user != null) {
+                Buyer buyer = buyerService.getBuyerByUser(user);
+                if (buyer != null) {
+                    List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
+                    List<CartInfo> items = new ArrayList<>();
+                    for (CartItem ci : cartItems) {
+                        Product product = ci.getProduct();
+                        items.add(new CartInfo(ci.getId(),
+                                product.getName(),
+                                product.getPrice(),
+                                product.getImage(),
+                                ci.getQuantity()
+                        ));
                     }
+
+                    return items;
                 }
             }
         }
+
         return null;
     }
+
+//    @RequestMapping(value = "/buyer/shoppingCart",
+//            method = RequestMethod.GET,
+//            produces = MediaType.APPLICATION_JSON_VALUE,
+//            consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseBody
+//    public List<CartInfo> getCart() {
+//        if (!(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken)) {
+//            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//            if (auth != null) {
+//                User user = userService.findByEmail(auth.getName());
+//                if (user != null) {
+//                    Buyer buyer = buyerService.getBuyerByUser(user);
+//                    if (buyer != null) {
+//                        List<CartItem> cartItems = cartService.getCartByBuyerId(buyer.getId());
+//                        List<CartInfo> items = new ArrayList<>();
+//                        for (CartItem ci : cartItems) {
+//                            Product product = ci.getProduct();
+//                            items.add(new CartInfo(ci.getId(),
+//                                    product.getName(),
+//                                    product.getPrice(),
+//                                    product.getImage(),
+//                                    ci.getQuantity()
+//                            ));
+//                        }
+//
+//                        return items;
+//                    }
+//                }
+//            }
+//        }
+//        return null;
+//    }
 
     @PostMapping("/buyer/cart/add")
     @ResponseBody

@@ -7,6 +7,8 @@ import java.util.List;
 public interface OrderItemService {
     OrderItem saveOrderItem(OrderItem orderItem);
 
+    OrderItem updateOrderItem(OrderItem orderItem);
+
     List<OrderItem> getOrderItems();
 
     List<OrderItem> getOrderItemsWithNotNullReviews();

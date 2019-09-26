@@ -160,8 +160,8 @@ public class BuyerController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByEmail(auth.getName());
         Buyer buyer = buyerService.getBuyerByUser(user);
-        orderService.saveOrder(buyer, order);
-        Long orderId = order.getId();
+        Order newOrder = orderService.saveOrder(buyer, order);
+        Long orderId = newOrder.getId();
         return "redirect:/buyer/orders/" + orderId;
     }
 

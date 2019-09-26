@@ -2,7 +2,7 @@ $(document).ready(function () {
    let loadFollowing = function () {
        $.ajax({
            method: 'GET',
-           url: '/buyer/followings',
+           url: '../buyer/followings',
            dataType: 'json',
            success: function (sellers) {
                $('#seller').html("");
@@ -25,7 +25,7 @@ $(document).ready(function () {
    $(document).on('click', '.unfollow', function(){
         var sellerId = $(this).data("id");
         $.ajax({
-            url: '/buyer/following/unfollow/' + sellerId,
+            url: '../buyer/following/unfollow/' + sellerId,
             type: 'DELETE',
             contentType: "application/json",
             dataType: "json",

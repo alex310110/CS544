@@ -2,7 +2,7 @@ $(document).ready(function () {
    let loadCart = function () {
        $.ajax({
            method: 'GET',
-           url: '/buyer/shoppingCart',
+           url: '../buyer/shoppingCart',
            contentType: 'application/json',
            dataType: 'json',
            success: function (cart) {

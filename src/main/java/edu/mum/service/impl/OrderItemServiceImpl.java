@@ -21,6 +21,11 @@ public class OrderItemServiceImpl implements OrderItemService {
     }
 
     @Override
+    public OrderItem updateOrderItem(OrderItem orderItem) {
+        return orderItemDao.update(orderItem);
+    }
+
+    @Override
     public List<OrderItem> getOrderItems() {
         return (List<OrderItem>) orderItemDao.findAll();
     }
