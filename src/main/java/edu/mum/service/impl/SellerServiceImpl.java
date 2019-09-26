@@ -2,7 +2,6 @@ package edu.mum.service.impl;
 
 import edu.mum.dao.SellerDao;
 import edu.mum.domain.Buyer;
-import edu.mum.domain.Product;
 import edu.mum.domain.Seller;
 import edu.mum.domain.User;
 import edu.mum.service.SellerService;
@@ -10,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -34,7 +33,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public List<Buyer> getFollowers(Long sellerId) {
+    public Set<Buyer> getFollowers(Long sellerId) {
         return sellerDao.findOne(sellerId).getBuyers();
     }
 
@@ -47,7 +46,7 @@ public class SellerServiceImpl implements SellerService {
     }
 
     @Override
-    public List<Seller> getAllSellers() {
-        return (List) sellerDao.findAll();
+    public Set<Seller> getAllSellers() {
+        return (Set<Seller>) sellerDao.findAll();
     }
 }

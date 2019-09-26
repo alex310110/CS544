@@ -2,12 +2,16 @@ package edu.mum.domain;
 
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -36,8 +40,9 @@ public class Seller {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "sellers")
-    private List<Buyer> buyers = new ArrayList<>();
+    private Set<Buyer> buyers = new HashSet<>();
 
     public void addBuyer(Buyer buyer) {
         buyers.add(buyer);
@@ -103,11 +108,11 @@ public class Seller {
 		this.status = status;
 	}
 
-	public List<Buyer> getBuyers() {
+	public Set<Buyer> getBuyers() {
 		return buyers;
 	}
 
-	public void setBuyers(List<Buyer> buyers) {
+	public void setBuyers(Set<Buyer> buyers) {
 		this.buyers = buyers;
 	}
 

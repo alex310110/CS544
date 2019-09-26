@@ -21,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -242,7 +243,7 @@ public class ProductController {
             productService.save(product);
 
             // send notify message to followers
-            List<Buyer> followers = seller.getBuyers();
+            Set<Buyer> followers = seller.getBuyers();
             for(Buyer follower : followers){
                 String message = "From " + seller.getName() +" shop: New product added.";
                 messageService.sendMessageToUser(follower.getUser(), message);
@@ -307,7 +308,7 @@ public class ProductController {
         productService.save(product);
 
         // send notify message to followers
-        List<Buyer> followers = seller.getBuyers();
+        Set<Buyer> followers = seller.getBuyers();
         for(Buyer follower : followers){
             String message = "From " + seller.getName() +" shop: New product added.";
             messageService.sendMessageToUser(follower.getUser(), message);
