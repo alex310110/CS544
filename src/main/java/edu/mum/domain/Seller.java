@@ -2,6 +2,8 @@ package edu.mum.domain;
 
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotBlank;
 
 import javax.persistence.*;
@@ -36,6 +38,7 @@ public class Seller {
     @Enumerated(EnumType.STRING)
     private Status status;
 
+	@LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "sellers")
     private List<Buyer> buyers = new ArrayList<>();
 
