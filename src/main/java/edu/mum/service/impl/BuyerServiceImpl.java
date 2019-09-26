@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -60,7 +61,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public List<Order> getOrdersByBuyerId(Long buyerId) {
+    public Set<Order> getOrdersByBuyerId(Long buyerId) {
         return buyerDao.findOne(buyerId).getOrders();
     }
 
