@@ -2,11 +2,13 @@ package edu.mum.dao.impl;
 
 import edu.mum.domain.OrderItem;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.Query;
 import java.util.List;
 
 @Repository
+//@Transactional
 public class OrderItemDaoImpl extends GenericDaoImpl<OrderItem> implements edu.mum.dao.OrderItemDao {
     public OrderItemDaoImpl() {
         super.setDaoType(OrderItem.class);

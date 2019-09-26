@@ -32,7 +32,7 @@
                 <tbody>
                 <tr th:each="ad : ${adverts}">
                     <td>
-                        <img th:src="${ad.image}" th:alt="${ad.title}" class="img-thumbnail w-100">
+                        <img th:src="@{'/' + ${ad.image}}" th:alt="${ad.title}" class="img-thumbnail w-100">
                     </td>
                     <td th:text="${ad.title}"></td>
                     <td th:text="${ad.description}"></td>
