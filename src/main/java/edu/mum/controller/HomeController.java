@@ -14,6 +14,7 @@ import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Controller
@@ -99,7 +100,7 @@ public class HomeController {
             // get product.
             Product product = productService.findById(Long.parseLong(id));
             Buyer buyer = buyerService.getBuyerByUser(user);
-            List<CartItem> cartItems = buyer.getCartItems();
+            Set<CartItem> cartItems = buyer.getCartItems();
             CartItem cartItem = new CartItem();
 
             for(CartItem item : cartItems){
@@ -149,7 +150,7 @@ public class HomeController {
     }
 
 
-    @RequestMapping(value = {"/product/{id}/cart"})
+    @RequestMapping(value = {"/product/{id}/cart"}, method = RequestMethod.POST)
     public String addProductToCart(@PathVariable(value = "id") Long id){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null || !authentication.isAuthenticated()){
@@ -164,7 +165,7 @@ public class HomeController {
         // query product to add to cart
         Product product = productService.findById(id);
         Buyer buyer = buyerService.getBuyerByUser(user);
-        List<CartItem> cartItems = buyer.getCartItems();
+        Set<CartItem> cartItems = buyer.getCartItems();
         CartItem cartItem = new CartItem();
 
         for(CartItem item : cartItems){

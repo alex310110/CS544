@@ -1,5 +1,7 @@
 package edu.mum.dao;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 
 public interface GenericDao<T> {

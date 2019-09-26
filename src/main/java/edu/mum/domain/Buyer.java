@@ -2,9 +2,14 @@ package edu.mum.domain;
 
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -19,8 +24,9 @@ public class Buyer {
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<Order>();
 
-    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
-    private List<CartItem> cartItems = new ArrayList<CartItem>();
+	@LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)//, fetch = FetchType.EAGER)
+    private Set<CartItem> cartItems = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "following", joinColumns = {@JoinColumn(name = "buyer_id")}, inverseJoinColumns = {@JoinColumn(name = "seller_id")})
@@ -78,11 +84,11 @@ public class Buyer {
 		this.orders = orders;
 	}
 
-	public List<CartItem> getCartItems() {
+	public Set<CartItem> getCartItems() {
 		return cartItems;
 	}
 
-	public void setCartItems(List<CartItem> cartItems) {
+	public void setCartItems(Set<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
 

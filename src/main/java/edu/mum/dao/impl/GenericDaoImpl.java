@@ -1,6 +1,8 @@
 package edu.mum.dao.impl;
 
 import edu.mum.dao.GenericDao;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -9,6 +11,7 @@ import java.util.List;
 
 /*@SuppressWarnings("unchecked")
 @Repository*/
+@Service
 public abstract class GenericDaoImpl<T> implements GenericDao<T> {
 
 	@PersistenceContext
@@ -22,7 +25,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
    
     @Override
     public T save( T entity ){
-        entityManager.persist( entity );
+        entityManager.merge( entity );
         return entity;
      }
 

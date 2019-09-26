@@ -14,10 +14,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import javax.sql.DataSource;
 
-//@Configuration
 @EnableWebSecurity
 @PropertySource(value = {"classpath:application.properties"})
-public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private DataSource dataSource;
