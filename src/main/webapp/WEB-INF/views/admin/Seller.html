@@ -38,11 +38,11 @@
                     <td th:text="${seller.user.address}"></td>
                     <td th:text="${seller.status}"></td>
                     <td>
-                        <form action="#" th:action="@{/admin/sellers/} + ${seller.id} + @{/approve}" method="post">
+                        <form action="#" th:action="@{/admin/sellers/{id}/approve(id = ${seller.id})}" method="post">
                             <input type="submit" value="Approve" th:if="${seller.status.toString() != 'APPROVED'}" class="btn btn-success btn-sm"/>
                         </form>
 
-                        <form action="#" th:action="@{/admin/sellers/} + ${seller.id} + @{/reject}" method="post">
+                        <form action="#" th:action="@{/admin/sellers/{id}/reject(id = ${seller.id})}" method="post">
                             <input type="submit" value="Reject" th:if="${seller.status.toString() != 'REJECTED'}" class="btn btn-danger btn-sm mt-2"/>
                         </form>
                     </td>

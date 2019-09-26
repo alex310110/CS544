@@ -61,7 +61,7 @@ public class BuyerServiceImpl implements BuyerService {
     }
 
     @Override
-    public Set<Order> getOrdersByBuyerId(Long buyerId) {
+    public List<Order> getOrdersByBuyerId(Long buyerId) {
         return buyerDao.findOne(buyerId).getOrders();
     }
 

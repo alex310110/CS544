@@ -24,13 +24,14 @@ public class Buyer {
 
 	@LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
-    private Set<Order> orders = new HashSet<>();
+    private List<Order> orders;
 
 	@LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
-    private Set<CartItem> cartItems = new HashSet<>();
+    private List<CartItem> cartItems;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+	@LazyCollection(LazyCollectionOption.FALSE)
+    @ManyToMany
     @JoinTable(name = "following", joinColumns = {@JoinColumn(name = "buyer_id")}, inverseJoinColumns = {@JoinColumn(name = "seller_id")})
     private List<Seller> sellers = new ArrayList<Seller>();
 
@@ -78,19 +79,19 @@ public class Buyer {
 		this.user = user;
 	}
 
-	public Set<Order> getOrders() {
+	public List<Order> getOrders() {
 		return orders;
 	}
 
-	public void setOrders(Set<Order> orders) {
+	public void setOrders(List<Order> orders) {
 		this.orders = orders;
 	}
 
-	public Set<CartItem> getCartItems() {
+	public List<CartItem> getCartItems() {
 		return cartItems;
 	}
 
-	public void setCartItems(Set<CartItem> cartItems) {
+	public void setCartItems(List<CartItem> cartItems) {
 		this.cartItems = cartItems;
 	}
 

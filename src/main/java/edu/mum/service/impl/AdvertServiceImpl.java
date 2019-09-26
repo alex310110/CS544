@@ -26,6 +26,11 @@ public class AdvertServiceImpl implements AdvertService {
     }
 
     @Override
+    public Advert updateAdvert(Advert advert) {
+        return advertDao.update(advert);
+    }
+
+    @Override
     public List<Advert> getAdverts() {
         return (List<Advert>) advertDao.findAll();
     }

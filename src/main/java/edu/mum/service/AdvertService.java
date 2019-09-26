@@ -11,6 +11,8 @@ public interface AdvertService {
 
     public Advert saveAdvert(Advert advert);
 
+    public Advert updateAdvert(Advert advert);
+
     public List<Advert> getAdverts();
 
     public Advert getAdvertById(Long id);

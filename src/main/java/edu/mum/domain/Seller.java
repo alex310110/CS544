@@ -9,7 +9,9 @@ import org.hibernate.validator.constraints.NotBlank;
 import javax.persistence.*;
 import javax.validation.Valid;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Entity
@@ -38,9 +40,9 @@ public class Seller {
     @Enumerated(EnumType.STRING)
     private Status status;
 
-	@LazyCollection(LazyCollectionOption.FALSE)
+    @LazyCollection(LazyCollectionOption.FALSE)
     @ManyToMany(mappedBy = "sellers")
-    private List<Buyer> buyers = new ArrayList<>();
+    private List<Buyer> buyers;
 
     public void addBuyer(Buyer buyer) {
         buyers.add(buyer);

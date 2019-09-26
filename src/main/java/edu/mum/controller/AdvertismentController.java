@@ -96,7 +96,7 @@ public class AdvertismentController {
             advertSaved.setImage(advert.getImage());
         };
         advertSaved.setDescription(advert.getDescription());
-        advertService.saveAdvert(advertSaved);
+        advertService.updateAdvert(advertSaved);
 
 
         return "redirect:/admin/ads";

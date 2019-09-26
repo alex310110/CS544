@@ -100,7 +100,7 @@ public class HomeController {
             // get product.
             Product product = productService.findById(Long.parseLong(id));
             Buyer buyer = buyerService.getBuyerByUser(user);
-            Set<CartItem> cartItems = buyer.getCartItems();
+            List<CartItem> cartItems = buyer.getCartItems();
             CartItem cartItem = new CartItem();
 
             for(CartItem item : cartItems){
@@ -165,7 +165,7 @@ public class HomeController {
         // query product to add to cart
         Product product = productService.findById(id);
         Buyer buyer = buyerService.getBuyerByUser(user);
-        Set<CartItem> cartItems = buyer.getCartItems();
+        List<CartItem> cartItems = buyer.getCartItems();
         CartItem cartItem = new CartItem();
 
         for(CartItem item : cartItems){

@@ -40,7 +40,7 @@
                     <tr th:each="prod : ${products}">
                         <td>
                             <img class="img-thumbnail w-100"
-                                 th:src="${prod.image}"/>
+                                 th:src="@{'/' + ${prod.image}}"/>
                         </td>
                         <td>
                             <span th:text="${prod.name}"></span>

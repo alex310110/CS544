@@ -60,7 +60,7 @@ public class AccountController {
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
             if (user != null) {
-                Set<Message> messages = user.getMessages();
+                List<Message> messages = user.getMessages();
                 model.addAttribute("messages", messages);
             }
         }

@@ -2,7 +2,6 @@ package edu.mum.service.impl;
 
 import edu.mum.dao.SellerDao;
 import edu.mum.domain.Buyer;
-import edu.mum.domain.Product;
 import edu.mum.domain.Seller;
 import edu.mum.domain.User;
 import edu.mum.service.SellerService;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -39,15 +39,16 @@ public class SellerServiceImpl implements SellerService {
     }
 
     public Seller updateSeller(Seller seller) {
-        Seller selectSeller = sellerDao.findOne(seller.getId());
-        selectSeller.setName(seller.getName());
-        selectSeller.setDescription(seller.getDescription());
-        selectSeller.setPicture(seller.getPicture());
-        return sellerDao.save(selectSeller);
+//        Seller selectSeller = sellerDao.findOne(seller.getId());
+//        selectSeller.setName(seller.getName());
+//        selectSeller.setDescription(seller.getDescription());
+//        selectSeller.setPicture(seller.getPicture());
+//        return sellerDao.save(selectSeller);
+        return sellerDao.update(seller);
     }
 
     @Override
     public List<Seller> getAllSellers() {
-        return (List) sellerDao.findAll();
+        return (List<Seller>) sellerDao.findAll();
     }
 }

@@ -108,7 +108,7 @@ public class AdminController {
         Seller s = sellerService.getSellerById(sellerId);
         if (s != null) {
             s.setStatus(Status.APPROVED);
-            sellerService.save(s);
+            sellerService.updateSeller(s);
         }
         model.addAttribute("seller", s);
         return "redirect:/admin/sellers";
@@ -119,7 +119,7 @@ public class AdminController {
         Seller s = sellerService.getSellerById(sellerId);
         if (s != null) {
             s.setStatus(Status.REJECTED);
-            sellerService.save(s);
+            sellerService.updateSeller(s);
         }
         model.addAttribute("seller", s);
         return "redirect:/admin/sellers";
@@ -136,7 +136,7 @@ public class AdminController {
         OrderItem orderItem = orderItemService.getOrderItemById(itemId);
         if (orderItem != null) {
             orderItem.setReviewStatus(Status.APPROVED);
-            orderItemService.saveOrderItem(orderItem);
+            orderItemService.updateOrderItem(orderItem);
             String subject = "JPA Market: Approve Review";
             String content = "Your review for the product " + orderItem.getProduct().getName() + " has been approved.";
             messageService.sendEmail("ja.vietanh@gmail.com", orderItem.getOrder().getBuyer().getUser().getEmail(), subject, content);
@@ -150,7 +150,7 @@ public class AdminController {
         OrderItem orderItem = orderItemService.getOrderItemById(itemId);
         if (orderItem != null) {
             orderItem.setReviewStatus(Status.REJECTED);
-            orderItemService.saveOrderItem(orderItem);
+            orderItemService.updateOrderItem(orderItem);
             String subject = "JPA Market: Reject Review";
             String content = "Your review for the product " + orderItem.getProduct().getName() + " has been rejected.";
             messageService.sendEmail("noreply@shopping.com", orderItem.getOrder().getBuyer().getUser().getEmail(), subject, content);
