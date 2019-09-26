@@ -29,6 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Controller
@@ -59,7 +60,7 @@ public class AccountController {
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
             if (user != null) {
-                List<Message> messages = user.getMessages();
+                Set<Message> messages = user.getMessages();
                 model.addAttribute("messages", messages);
             }
         }
