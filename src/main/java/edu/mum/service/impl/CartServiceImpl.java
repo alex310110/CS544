@@ -6,11 +6,13 @@ import edu.mum.domain.CartItem;
 import edu.mum.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@Transactional
 public class CartServiceImpl implements CartService {
 
     @Autowired

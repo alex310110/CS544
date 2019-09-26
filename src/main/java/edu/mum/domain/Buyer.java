@@ -2,6 +2,9 @@ package edu.mum.domain;
 
 
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,9 +19,12 @@ public class Buyer {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     private User user;
+
+	@LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<Order>();
 
+	@LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "buyer", cascade = CascadeType.ALL)
     private List<CartItem> cartItems = new ArrayList<CartItem>();
 

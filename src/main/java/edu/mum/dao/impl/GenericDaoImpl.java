@@ -22,7 +22,7 @@ public abstract class GenericDaoImpl<T> implements GenericDao<T> {
    
     @Override
     public T save( T entity ){
-        entityManager.persist( entity );
+        entityManager.merge( entity );
         return entity;
      }
 
